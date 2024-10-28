@@ -40,10 +40,10 @@ let
   common = {
     src = fetchurl {
       urls = [
-        "http://ftp.math.utah.edu/pub/tex/historic/systems/texlive/${year}/texlive-${year}0313-source.tar.xz"
-              "ftp://tug.ctan.org/pub/tex/historic/systems/texlive/${year}/texlive-${year}0313-source.tar.xz"
+        "http://ftp.math.utah.edu/pub/tex/historic/systems/texlive/${year}/texlive-${year}0312-source.tar.xz"
+              "ftp://tug.ctan.org/pub/tex/historic/systems/texlive/${year}/texlive-${year}0312-source.tar.xz"
       ];
-      hash = "sha256-OHiqDh7QMBwFOw4u5OmtmZxEE0X0iC55vdHI9M6eebk=";
+      hash = "sha256-e22HzwFmFnD6xFyTEmvtl7mEMTntUQ+XXQR+qTi2/pY=";
     };
 
     prePatch = ''
@@ -122,15 +122,6 @@ core = stdenv.mkDerivation rec {
   __structuredAttrs = true;
 
   inherit (common) binToOutput src prePatch;
-
-  patches = [
-    (fetchpatch {
-      name = "ttfdump-CVE-2024-25262.patch";
-      url = "https://tug.org/svn/texlive/trunk/Build/source/texk/ttfdump/libttf/hdmx.c?r1=57915&r2=69520&view=patch";
-      stripLen = 2;
-      hash = "sha256-WH2kioqFAs3jaFmu4DdEUdrTf6eiymtiWTZi3vWwU7k=";
-    })
-  ];
 
   outputs = [ "out" "dev" "man" "info" ]
     ++ (builtins.map (builtins.replaceStrings [ "-" ] [ "_" ]) corePackages);
@@ -221,19 +212,6 @@ core-big = stdenv.mkDerivation {
       url = "https://bugs.debian.org/cgi-bin/bugreport.cgi?att=1;bug=1009196;filename=lua_fixed_hash.patch;msg=45";
       sha256 = "sha256-FTu1eRd3AUU7IRs2/7e7uwHuvZsrzTBPypbcEZkU7y4=";
     })
-    # update to LuaTeX 1.16.1 to prepare for 1.17.0 below
-    (fetchpatch {
-      name = "luatex-1.16.1.patch";
-      url = "https://github.com/TeX-Live/texlive-source/commit/ad8702a45e317fa9d396ef4d50467c37964a9543.patch";
-      hash = "sha256-qfzUfkJUfW285w+fnbpO8JLArM7/uj3yb9PONgZrJLE=";
-    })
-    # fixes security issues in luatex that allows arbitrary code execution even with shell-escape disabled and network requests, see https://tug.org/~mseven/luatex.html
-    # fixed in LuaTeX 1.17.0, shipped as a rare binary update in TL 2023
-    (fetchpatch {
-      name = "luatex-1.17.0.patch";
-      url = "https://github.com/TeX-Live/texlive-source/commit/6ace460233115bd42b36e63c7ddce11cc92a1ebd.patch";
-      hash = "sha256-2fbIdwnw/XQXci9OqRrb6B5tHiSR0co08NyFgMyXCvc=";
-    })
     # Fixes texluajitc crashes on aarch64, backport of the upstream fix
     # https://github.com/LuaJIT/LuaJIT/commit/e9af1abec542e6f9851ff2368e7f196b6382a44c
     # to the version vendored by texlive (2.1.0-beta3)
@@ -317,15 +295,12 @@ chktex = stdenv.mkDerivation {
 # for details see https://wiki.contextgarden.net/Building_LuaMetaTeX_for_TeX_Live
 context = stdenv.mkDerivation rec {
   pname = "luametatex";
-  version = "2.10.08";
+  version = "2.11.02";
 
   src = fetchurl {
-    url = "https://tug.org/svn/texlive/trunk/Master/source/luametatex-${version}.tar.xz?pathrev=67034&view=co";
-    # keep the name the same, to avoid rebuilds now
-    name = "luametatex-${version}.tar.xz?revision=67034&view=co";
-    # when bumping the version this should probably be changed to:
-    # name = "luametatex-${version}.tar.xz";
-    hash = "sha256-3JeOUQ63jJOZWTxFCoyWjfcrspmdmC/yqgS1JaLfTWk=";
+    name = "luametatex-${version}.tar.xz";
+    url = "https://tug.org/svn/texlive/trunk/Master/source/luametatex-${version}.tar.xz?pathrev=70384&view=co";
+    hash = "sha256-o7esoBBTTYEstkd7l34BWxew3fIRdVcFiGxrT1/KP1o=";
   };
 
   enableParallelBuilding = true;
@@ -431,20 +406,11 @@ asymptote = args.asymptote.overrideAttrs (finalAttrs: prevAttrs: {
   # so that top level updates do not break texlive
   src = fetchurl {
     url = "mirror://sourceforge/asymptote/${finalAttrs.version}/asymptote-${finalAttrs.version}.src.tgz";
-    hash = "sha256-DecadD+m7pORuH3Sdcs/5M3vUbN6rhSkFoNN0Soq9bs=";
+    hash = "sha256-nZtcb6fg+848HlT+sl4tUdKMT+d5jyTHbNyugpGo6mY=";
   };
 
   texContainer = texlive.pkgs.asymptote.tex;
   texdocContainer = texlive.pkgs.asymptote.texdoc;
-
-  patches = [
-    (fetchpatch {
-      # partial fix for macOS XDR/V3D support (LDFLAGS change seems like an unrelated bugfix)
-      name = "restore-LDFLAGS-dont-look-for-tirpc-under-MacOS.patch";
-      url = "https://github.com/vectorgraphics/asymptote/commit/7e17096b22d18d133d1bc5916b6e32c0cb24ad10.patch";
-      hash = "sha256-olCFzqfZwWOAjqlB5lDPXYRHU9i3VQNgoR0cO5TmW98=";
-    })
-  ];
 });
 
 inherit biber;

@@ -381,16 +381,16 @@ rec {
       shortVersion = [ "devnag" "diadia" "pmxchords" "ptex2pdf" "simpdftex" "ttf2afm" ];
       # (1) binaries requiring --help or -h
       help = [ "arlatex" "bundledoc" "cachepic" "checklistings" "dvipos" "extractres" "fig4latex" "fragmaster"
-        "kpsewhere" "latex-git-log" "ltxfileinfo" "mendex" "perltex" "pn2pdf" "psbook" "psnup" "psresize" "purifyeps"
+        "kpsewhere" "latex-git-log" "ltxfileinfo" "mendex" "pdflatexpicscale" "perltex" "pn2pdf" "psbook" "psnup" "psresize" "purifyeps"
         "simpdftex" "tex2xindy" "texluac" "texluajitc" "upmendex" "urlbst" "yplan" ];
-      shortHelp = [ "adhocfilelist" "authorindex" "bbl2bib" "bibdoiadd" "bibmradd" "biburl2doi" "bibzbladd" "ctanupload"
+      shortHelp = [ "adhocfilelist" "authorindex" "bbl2bib" "bibdoiadd" "bibmradd" "biburl2doi" "bibzbladd" "bookshelf-mkfontsel" "ctanupload"
         "disdvi" "dvibook" "dviconcat" "getmapdl" "latex2man" "listings-ext.sh" "pygmentex" ];
       # (2) binaries that return non-zero exit code even if correctly asked for help
-      ignoreExitCode = [ "authorindex" "dvibook" "dviconcat" "dvipos" "extractres" "fig4latex" "fragmaster" "latex2man"
+      ignoreExitCode = [ "authorindex" "bookshelf-mkfontsel" "dvibook" "dviconcat" "dvipos" "extractres" "fig4latex" "fragmaster" "latex2man"
         "latex-git-log" "listings-ext.sh" "psbook" "psnup" "psresize" "purifyeps" "tex2xindy"  "texluac"
         "texluajitc" ];
       # (2) binaries that print help on no argument, returning non-zero exit code
-      noArg = [ "a2ping" "bg5+latex" "bg5+pdflatex" "bg5latex" "bg5pdflatex" "cef5latex" "cef5pdflatex" "ceflatex"
+      noArg = [ "a2ping" "bg5+latex" "bg5+pdflatex" "bg5latex" "bg5pdflatex" "bookshelf-listallfonts" "cef5latex" "cef5pdflatex" "ceflatex"
         "cefpdflatex" "cefslatex" "cefspdflatex" "chkdvifont" "dvi2fax" "dvired" "dviselect" "dvitodvi" "epsffit"
         "findhyph" "gbklatex" "gbkpdflatex" "komkindex" "kpsepath" "listbib" "listings-ext" "mag" "mathspic" "mf2pt1"
         "mk4ht" "mkt1font" "mkgrkindex" "musixflx" "pdf2ps" "pdfclose" "pdftosrc" "pdfxup" "pedigree" "pfb2pfa" "pk2bm"
