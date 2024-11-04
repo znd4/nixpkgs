@@ -414,7 +414,9 @@ rec {
 
         # requires Cinderella, not open source and not distributed via Nixpkgs
         "ketcindy"
-      ];
+      ]
+      # needs luaotfload-tool
+      ++ lib.optional stdenv.hostPlatform.isDarwin "bookshelf-listallfonts";
       # binaries that need a combined scheme and cannot work standalone
       needScheme = [
         # pfarrei: require working kpse to find lua module
