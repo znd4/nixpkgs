@@ -357,22 +357,7 @@ in lib.recursiveUpdate orig rec {
     (!(stdenv.hostPlatform.isPower && stdenv.hostPlatform.is64bit) && !stdenv.hostPlatform.isRiscV)
     orig.luajittex.binfiles;
 
-  # tlpdb lists license as "unknown", but the README says lppl13: http://mirrors.ctan.org/language/arabic/arabi-add/README
-  arabi-add.license = [ "lppl13c" ];
-  # tlpdb lists license as "eupl", and CTAN clarifies https://new.ctan.org/pkg/hershey-mp
-  hershey-mp.license = [ "eupl12" ];
-  minim.license = [ "eupl12" ];
-  minim-hatching.license = [ "eupl12" ];
-  minim-math.license = [ "eupl12" ];
-  minim-mp.license = [ "eupl12" ];
-  minim-pdf.license = [ "eupl12" ];
-  minim-xmp.license = [ "eupl12" ];
-  # tlpdb lists license as "other-nonfree", and CTAN clarifies https://new.ctan.org/pkg/osda
-  osda.license = [
-    "lppl13c"
-    "unfree"
-  ];
-  # hence we can't include this by default
+  # osda is unfree. Hence, we can't include it by default
   collection-publishers.deps = builtins.filter (dep: dep != "osda") orig.collection-publishers.deps;
 
   texdoc = {
