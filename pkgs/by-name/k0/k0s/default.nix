@@ -58,13 +58,13 @@ builtins.mapAttrs (
 
     passthru.updateScript = ./update-script.bash;
 
-    meta = with lib; {
-      description = "k0s - The Zero Friction Kubernetes";
+    meta = {
+      description = "The Zero Friction Kubernetes";
       homepage = "https://k0sproject.io";
-      license = licenses.asl20;
-      sourceProvenance = with sourceTypes; [ binaryNativeCode ];
+      license = lib.licenses.asl20;
+      sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
       mainProgram = "k0s";
-      maintainers = with maintainers; [ twz123 ];
+      maintainers = with lib.maintainers; [ twz123 ];
       platforms = builtins.attrNames release.srcs;
     };
   }
