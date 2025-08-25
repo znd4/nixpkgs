@@ -53,6 +53,7 @@ python3Packages.buildPythonApplication rec {
     pyyaml
     toml
     virtualenv
+    pip-system-certs
   ];
 
   nativeCheckInputs = [
